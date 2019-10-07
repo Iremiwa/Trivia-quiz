@@ -1,7 +1,7 @@
 const question = document.getElementById("question");
-const choices = Array.from(document.getElementsByClassName("options-text")); 
+const choices = Array.from($(".options-text")); 
 const questionCounterText = document.getElementById("questionCounter"); 
-const scoreText = document.getElementById("score");
+const scoreText = $("#score");
 
 
 let currentQuestion = {};
@@ -51,9 +51,42 @@ let questions = [
         choice4: "Because he died ",
         answer: 4
     },
+    {
+        question: "Who is the commander of the warrior-eunuchs of Astapor, known as the Unsullied?",
+        choice1: "Blackant",
+        choice2: "Greyworm ",
+        choice3: "Blueworm",
+        choice4: "Greyant ",
+        answer: 2
+    },
+    {
+        question: "What sort of steel is Ned Stark's sword, called Ice, made from?",
+        choice1: "Stainless Steel",
+        choice2: "Dragon Steel ",
+        choice3: "Valyrian Steel ",
+        choice4: "Iron Steel ",
+        answer: 3
+    },
+    {
+        question: "Name the military order which holds and guards the Wall?",
+        choice1: "The Night's watch",
+        choice2: "The Dothraki ",
+        choice3: "The Unsullied ",
+        choice4: "White walkers ",
+        answer: 1
+    },
+    {
+        question: "What was the name of the explosive used in the Battle of Blackwater?",
+        choice1: "Dynamite",
+        choice2: "Atomic Fire",
+        choice3: "Wild Fire ",
+        choice4: "Atomic Bomb",
+        answer: 3
+    },
+    
 ];
 
-const correctAnswer = 10;
+const correctAnswer = 20;
 const maxQuestions = 5;
 
 startQuiz = () => {
@@ -65,10 +98,12 @@ startQuiz = () => {
 };
 
 
-}
+
 
 getNewQuestion = () => {
     if(availableQuestion.length== 0 || questionCounter >= maxQuestions ) {
+        localStorage.setItem("mostRecentScore", score);
+        
         return window.location.assign("endgame.html");
 }
 
@@ -90,7 +125,7 @@ getNewQuestion = () => {
     enterAnswers = true;
 };
 
-getNewQuestion();
+
 
 choices.forEach(choice => {
     choice.addEventListener("click", e => {
@@ -104,11 +139,14 @@ choices.forEach(choice => {
         const classToApply =
          selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
 
+         if (classToApply === "correct") {
+            incrementScore(correctAnswer);
+          }
          
        
         selectedChoice.parentElement.classList.add(classToApply);
 
-        //getNewQuestion();
+        getNewQuestion();
     });
 });
 
